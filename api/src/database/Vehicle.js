@@ -1,11 +1,11 @@
 const {conexion} = require("./CredentialDB");
 
-const getAllVehicles = ({driverId}) => {
-  let query = "select * from vehicle";
+const getAllVehicles = ({driverId, limit = 5, page = 1}) => {
+  let numStart = limit * (page-1);
+  let query = `select * from vehicle where driver_id = ? limit ? OFFSET ?`;
   return new Promise((resolve,reject)=>{
-    conexion().query(query,(error,rows,fields)=>{
+    conexion().query(query,[driverId, parseInt(limit,10) ,numStart],(error,rows,fields)=>{
       if(error) reject({ status: 500, message: error });
-      if(driverId) resolve(rows.filter(vehicle => vehicle.driver_id == driverId));
       resolve(rows);
     });     
   });

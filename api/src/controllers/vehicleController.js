@@ -1,8 +1,8 @@
 const vehicleService = require("../services/vehicleService");
 
 const getAllVehicles = (req, res) => {
-  const {driverId} = req.query;
-    const allVehicles = vehicleService.getAllVehicles({driverId});
+  const {driverId, limit, page} = req.query;
+    const allVehicles = vehicleService.getAllVehicles({driverId, limit, page});
     allVehicles.then(vehicles => {
       res.send({ status: "OK", data: vehicles });
     }).catch(error => {
